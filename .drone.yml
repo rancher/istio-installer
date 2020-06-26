@@ -7,7 +7,7 @@ platform:
 
 steps:
 - name: build
-  image: ranchertest/build-base:v1.14.2
+  image: briandowns/rancher-build-base:v0.1.1
   volumes:
   - name: docker
     path: /var/run
@@ -19,7 +19,7 @@ steps:
     - tag
 
 - name: push
-  image: ranchertest/build-base:v1.14.2
+  image: briandowns/rancher-build-base:v0.1.1
   volumes:
   - name: docker
     path: /var/run
@@ -36,7 +36,7 @@ steps:
     - tag
 
 - name: scan
-  image: ranchertest/build-base:v1.14.2
+  image: briandowns/rancher-build-base:v0.1.1
   volumes:
   - name: docker
     path: /var/run
@@ -47,7 +47,7 @@ steps:
     - tag
 
 - name: manifest
-  image: ranchertest/build-base:v1.14.2
+  image: briandowns/rancher-build-base:v0.1.1
   volumes:
   - name: docker
     path: /var/run

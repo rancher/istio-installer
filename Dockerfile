@@ -1,21 +1,13 @@
-ARG UBI_IMAGE=registry.access.redhat.com/ubi7/ubi-minimal:latest
-ARG GO_IMAGE=ranchertest/build-base:v1.14.2
+FROM alpine:latest
 
-FROM ${UBI_IMAGE} as ubi
+ENV ISTIO_VERSION 1.6.1
 
-FROM ${GO_IMAGE} as builder
-ARG TAG="" 
-RUN apt update     && \ 
-    apt upgrade -y && \ 
-    apt install -y ca-certificates git
-RUN git clone --depth=1 [UPSTREAM_HERE]
-RUN cd [INTO_REPOSITORY]               && \
-    git fetch --all --tags --prune     && \
-    git checkout tags/${TAG} -b ${TAG} && \
-    [BUILD_CMD_HERE]
-
-FROM ubi
-RUN microdnf update -y && \ 
-    rm -rf /var/cache/yum
-
-COPY --from=builder [PATH_TO_BINARY_HERE] /usr/local/bin
+RUN apk update && apk add curl bash coreutils
+RUN curl -L https://istio.io/downloadIstio | sh -
+RUN mv istio-${ISTIO_VERSION}/bin/istioctl /usr/bin && chmod +x /usr/bin/istioctl
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+RUN chmod +x ./kubectl
+RUN mv ./kubectl /usr/local/bin/kubectl
+COPY scripts /usr/local/app/scripts/
+RUN chmod +x /usr/local/app/scripts/init_kubeconfig.sh /usr/local/app/scripts/run.sh /usr/local/app/scripts/create_istio_system.sh
+ENTRYPOINT [ "/usr/local/app/scripts/run.sh" ]

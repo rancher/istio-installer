@@ -1,12 +1,8 @@
 SEVERITIES = HIGH,CRITICAL
 
-ifeq ($(TAG),)
-TAG = dev
-endif
-
 .PHONY: all
 all:
-	docker build --build-arg TAG=$(TAG) -t brendarearden/istio-installer:$(TAG) .
+	sudo docker build --no-cache --build-arg TAG=$(TAG) -t brendarearden/istio-installer:$(TAG) .
 
 .PHONY: image-push
 image-push:
