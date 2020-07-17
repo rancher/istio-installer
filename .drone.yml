@@ -1,4 +1,3 @@
----
 kind: pipeline
 name: linux-amd64
 platform:
@@ -6,65 +5,30 @@ platform:
   arch: amd64
 
 steps:
-- name: build
-  image: briandowns/rancher-build-base:v0.1.1
-  volumes:
-  - name: docker
-    path: /var/run
-  commands:
-  - sleep 20
-  - TAG=${DRONE_TAG} make
-  when:
-    event:
-    - tag
+- name: docker-build
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    repo: "rancher/istio-installer"
+    tag: "dev"
+    dry_run: true
 
-- name: push
-  image: briandowns/rancher-build-base:v0.1.1
-  volumes:
-  - name: docker
-    path: /var/run
-  commands:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - TAG=${DRONE_TAG} make image-push
-  environment:
-    DOCKER_USERNAME:
+- name: docker-publish
+  image: plugins/docker
+  settings:
+    dockerfile: Dockerfile
+    repo: "rancher/istio-installer"
+    tag: "${DRONE_TAG}"
+    username:
       from_secret: docker_username
-    DOCKER_PASSWORD:
+    password:
       from_secret: docker_password
   when:
+    instance:
+    - drone-publish.rancher.io
+    ref:
+    - refs/head/master
+    - refs/tags/*
     event:
     - tag
 
-- name: scan
-  image: briandowns/rancher-build-base:v0.1.1
-  volumes:
-  - name: docker
-    path: /var/run
-  commands:
-  - TAG=${DRONE_TAG} make image-scan
-  when:
-    event:
-    - tag
-
-- name: manifest
-  image: briandowns/rancher-build-base:v0.1.1
-  volumes:
-  - name: docker
-    path: /var/run
-  commands:
-  - TAG=${DRONE_TAG} make image-manifest
-  when:
-    event:
-    - tag
-
-services:
-- name: docker
-  image: docker:dind
-  privileged: true
-  volumes:
-  - name: dockersock
-    path: /var/run
-
-volumes:
-  - name: dockersock
-    temp: {}

@@ -23,4 +23,5 @@ users:
   user:
     token: ${token}
 " > sa.kubeconfig
-kubectl config --kubeconfig=sa.kubeconfig use-context ${RELEASE_NAME}-context 
+kubectl config --kubeconfig=sa.kubeconfig use-context ${RELEASE_NAME}-context
+ 
