@@ -17,5 +17,5 @@ RUN mv ./kubectl /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
 
 # Add scripts for Istio
 COPY scripts /usr/local/app/scripts/
-RUN chmod +x /usr/local/app/scripts/init_kubeconfig.sh /usr/local/app/scripts/run.sh /usr/local/app/scripts/create_istio_system.sh
+RUN chmod +x /usr/local/app/scripts/init_kubeconfig.sh /usr/local/app/scripts/run.sh /usr/local/app/scripts/create_istio_system.sh /usr/local/app/scripts/uninstall_istio_system.sh
 ENTRYPOINT [ "/usr/local/app/scripts/run.sh" ]
