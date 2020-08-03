@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV ISTIO_VERSION 1.6.6
+ENV ISTIO_VERSION 1.6.7
 
 RUN apk update && apk add curl bash coreutils
 
