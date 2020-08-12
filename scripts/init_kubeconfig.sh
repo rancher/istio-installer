@@ -15,7 +15,7 @@ contexts:
 - name: ${RELEASE_NAME}-context
   context:
     cluster: ${RELEASE_NAME}-cluster
-    namespace: istio-system
+    namespace: ${ISTIO_NAMESPACE}
     user: ${RELEASE_NAME}-user
 current-context: default-context
 users:
@@ -24,4 +24,3 @@ users:
     token: ${token}
 " > sa.kubeconfig
 kubectl config --kubeconfig=sa.kubeconfig use-context ${RELEASE_NAME}-context
- 
