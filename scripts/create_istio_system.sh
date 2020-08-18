@@ -23,7 +23,7 @@ if [[ $FORCE_INSTALL != true ]]; then
 fi
 
 versions=$(kubectl get --ignore-not-found=true deploy istiod -n $ISTIO_NAMESPACE -o=jsonpath='{$.spec.template.spec.containers[*].image}')
-if [[ $CANARY_REVISION ]] || [[ $versions == "" ]]; then
+if [[ $versions == "" ]]; then
   echo "running istioctl install"
   istioctl install -i $ISTIO_NAMESPACE -y ${ISTIO_FILES[@]/#/-f }
 
