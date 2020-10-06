@@ -31,5 +31,7 @@ else
   echo "running istioctl upgrade"
   istioctl upgrade -i $ISTIO_NAMESPACE -y ${ISTIO_FILES[@]/#/-f }
 fi
-istioctl manifest generate -i $ISTIO_NAMESPACE ${ISTIO_FILES[@]/#/-f } > /app/generated-manifest.yaml
-istioctl verify-install -i $ISTIO_NAMESPACE -f /app/generated-manifest.yaml
+if [[ $SKIP_VALIDATION != true ]]; then
+  istioctl manifest generate -i $ISTIO_NAMESPACE ${ISTIO_FILES[@]/#/-f } > /app/generated-manifest.yaml
+  istioctl verify-install -i $ISTIO_NAMESPACE -f /app/generated-manifest.yaml
+fi
