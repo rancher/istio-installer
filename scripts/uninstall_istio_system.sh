@@ -9,7 +9,7 @@ if test -f "/app/overlay-config.yaml"; then
 fi
 
 echo "uninstalling istio"
-istioctl manifest generate -i $ISTIO_NAMESPACE ${ISTIO_FILES[@]/#/-f } | kubectl delete --ignore-not-found=true -f -
+istioctl manifest generate --manifests /usr/local/app/manifests -i $ISTIO_NAMESPACE ${ISTIO_FILES[@]/#/-f } | kubectl delete --ignore-not-found=true -f -
 
 if kubectl get namespace cattle-dashboards; then
   kubectl delete configmap -n cattle-dashboards -l istio_dashboard=1
