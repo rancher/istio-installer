@@ -5,5 +5,5 @@ Scripts include install, upgrade and uninstall.
 
 ## Build
 ```sh
-TAG=1.7.300 make
+TAG=1.7.600 make
 ```
