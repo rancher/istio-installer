@@ -15,8 +15,7 @@ if [[ $FORCE_INSTALL != true ]]; then
       exit 1
   fi
   # force install will skip file checks. same analyze command is valid for install and upgrade
-  istioctl analyze $ISTIO_FILES -i $ISTIO_NAMESPACE --failure-threshold Error
-  if [[ $? -ne 0 ]]; then
+if ! istioctl analyze $ISTIO_FILES -i $ISTIO_NAMESPACE --failure-threshold Error; then
     echo "error found during istioctl analyze"
     exit 1
   fi
@@ -25,11 +24,18 @@ fi
 versions=$(kubectl get --ignore-not-found=true deploy istiod -n $ISTIO_NAMESPACE -o=jsonpath='{$.spec.template.spec.containers[*].image}')
 if [[ $versions == "" ]]; then
   echo "running istioctl install"
-  istioctl install -i $ISTIO_NAMESPACE -y ${ISTIO_FILES[@]/#/-f }
-
+  
+  if ! istioctl install -i $ISTIO_NAMESPACE -y ${ISTIO_FILES[@]/#/-f }; then
+    echo "error found during istioctl install"
+    exit 1
+  fi
 else
   echo "running istioctl upgrade"
-  istioctl upgrade -i $ISTIO_NAMESPACE -y ${ISTIO_FILES[@]/#/-f }
+  
+  if ! istioctl upgrade -i $ISTIO_NAMESPACE -y ${ISTIO_FILES[@]/#/-f }; then
+    echo "error found during istioctl upgrade"
+    exit 1
+  fi
 fi
 
 if kubectl get namespace cattle-dashboards; then
