@@ -31,4 +31,3 @@ steps:
     - refs/tags/*
     event:
     - tag
-
