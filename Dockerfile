@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ENV ISTIO_VERSION 1.9.8
+ENV ISTIO_VERSION 1.11.2
 
 RUN apk update && apk add curl bash coreutils jq
 
