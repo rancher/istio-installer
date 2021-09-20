@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "setting up kubeconfig"
+export KUBECONFIG=$HOME/sa.kubeconfig
 ./usr/local/app/scripts/init_kubeconfig.sh
 
 ISTIO_FILES=("/app/istio-base.yaml")

@@ -3,8 +3,10 @@
 set -e
 
 RELEASE_DIR=${1}
-
 echo ${RELEASE_DIR}
+
+# Istio versions that need to be supported in the image for airgap installation.
+istio_version_array=(1.7.1 1.7.3 1.8.3 1.8.5 1.8.6 1.9.3 1.9.5 1.9.6 1.9.8 1.10.4)
 
 if [ -z "${RELEASE_DIR}" ]; then
   echo "No directory given"
@@ -14,9 +16,9 @@ fi
 if [ -d "${RELEASE_DIR}" ] ; then
   cd ${RELEASE_DIR}
 
-  dir=$(pwd)
-
-  curl https://api.github.com/repos/istio/istio/releases | jq -r '.[] | select(.tag_name | test("^[0-9.]+$")) | .assets[] | select(.name | test("linux")) | .browser_download_url' | grep -v "sha256" | grep -v "arm" | grep -v "istioctl" | xargs -n 1 wget
+  for v in "${istio_version_array[@]}"; do
+    curl -sOL https://github.com/istio/istio/releases/download/$v/istio-$v-linux-amd64.tar.gz
+  done 
 
   for f in *.tar.gz; do
     if [ -f "$f" ]; then
