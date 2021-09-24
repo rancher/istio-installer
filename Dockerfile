@@ -1,5 +1,5 @@
 FROM alpine:latest
-ENV ISTIO_VERSION 1.10.4
+ENV ISTIO_VERSION 1.11.3
 RUN apk update && apk add curl bash coreutils jq ca-certificates openssl nginx sudo
 
 # Get Istio
