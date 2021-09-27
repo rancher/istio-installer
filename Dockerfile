@@ -24,5 +24,8 @@ RUN mkdir -p /var/cache/nginx
 
 RUN chown -R nginx:nginx /var/cache/nginx /etc/ssl /var/run /usr/share/nginx /usr/local/share/ca-certificates
 
+RUN echo "nginx ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nginx \
+        && chmod 0440 /etc/sudoers.d/nginx
+
 USER nginx
 ENTRYPOINT [ "/usr/local/app/scripts/run.sh" ]

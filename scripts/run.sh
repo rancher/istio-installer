@@ -9,7 +9,13 @@ if $RELEASE_MIRROR_ENABLED; then
     cp /etc/ssl/certs/github.com.crt /usr/local/share/ca-certificates/fake-github.com.crt
     update-ca-certificates
     echo "running nginx"
-    nginx -c /etc/nginx/nginx.conf
+    sudo nginx -c /etc/nginx/nginx.conf
 fi
+
+if $DEBUG; then
+    echo "starting sleep for ${SECONDS_SLEEP} seconds"
+    sleep ${SECONDS_SLEEP}s
+fi
+
 echo "starting istioctl commands"
 ./usr/local/app/scripts/create_istio_system.sh

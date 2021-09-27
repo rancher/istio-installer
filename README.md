@@ -12,15 +12,14 @@ The current implementation of the `istioctl upgrade` command makes a call to ext
 
 ## Making Changes
 #### How to upgrade the istio version
-In the Dockerfile, change the environmnet variable `ENV ISTIO_VERSION` to the version of istio that you would like the installer to support.
 
-In addition to making the version change in the Dockerfile, you will need to update the `istio_version_array` in `scripts/fetch_istio_releases.sh` to support upgrades in airgapped environments. To do this, you can move the previous version from the `ENV ISTIO_VERSION` in the Dockerfile to the `istio_version_array`. If it already exists there, then its likely you don't need to add a new version to the array.
+1. In the Dockerfile, change the environmnet variable `ENV ISTIO_VERSION` to the version of istio that you would like the installer to support.
+2. Add the same version of istio that you used for `ENV ISTIO_VERSION`to the `istio_version_array` in the fetch_istio_releases.sh script ordering from least to greatest. When doing this step, you also want to double check that the version that was previously used for `ENV ISTIO_VERSION` also exists in the `istio_version_array`. This step ensures upgrades work in airgapped environments.
 
-In general, you would want to ensure that all previous rancher-istio supported versions are present in the `istio_version_array`, in order from least to greatest. You would also want to ensure that any istio versions that were released with an out of band (OOB) rancher-istio release have been included. The easiest way to verify that all the correct versions are present is to validate the `istio_version_array` against the versions that are in the release branches of the [rancher/charts ](https://github.com/rancher/charts "rancher/charts ") or againts the existing [istio-installer image tags](https://hub.docker.com/r/rancher/istio-installer/tags "istio-installer image tags")
+	In general, the `istio_version_array` must include all istio versions from the release branches of [rancher/charts ](https://github.com/rancher/charts "rancher/charts ") 
+	> Note: The `istio_version_array` does not include rancher-istio chart version, just the version of istio that is supported by the rancher-istio chart.
 
-> Note: The `istio_version_array` does not include rancher-istio chart version, just the version of istio that is supported by the rancher-istio chart.
-
-Finally, you need to validate that the create_istio_system.sh and the uninstall_istio_system.sh script commands are still valid. This can be done by checking that the [istioctl commands](https://istio.io/latest/docs/reference/commands/istioctl/ "istioctl commands") have not changed. You should also check the [release notes](https://istio.io/latest/news/ "release notes") for any significant changes to how istioctl is used. If there were changes to the commands, update the create_istio_system.sh  and the uninstall_istio_system.sh scripts accordingly.
+3. Finally, you need to validate that the create_istio_system.sh and the uninstall_istio_system.sh script commands are still valid. This can be done by checking that the [istioctl commands](https://istio.io/latest/docs/reference/commands/istioctl/ "istioctl commands") have not changed. You should also check the [release notes](https://istio.io/latest/news/ "release notes") for any significant changes to how istioctl is used. If there were changes to the commands, update the create_istio_system.sh  and the uninstall_istio_system.sh scripts accordingly.
 
 ## Build
 The istio-installer image is built using drone when a new tag is created and pushed to repository. See drone.yaml for drone configurations.
