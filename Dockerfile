@@ -22,7 +22,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/istio-releases && /usr/local/app/scripts/fetch_istio_releases.sh /opt/istio-releases
 RUN mkdir -p /var/cache/nginx
 
-RUN chown -R nginx:nginx /var/cache/nginx /etc/ssl /var/run /usr/share/nginx /usr/local/share/ca-certificates
+RUN chown -R nginx:nginx /var/cache/nginx /etc/ssl /var/run /usr/share/nginx /usr/local/share/ca-certificates /usr/local/app/dashboards
 
 RUN echo "nginx ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nginx \
         && chmod 0440 /etc/sudoers.d/nginx
