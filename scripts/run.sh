@@ -12,7 +12,7 @@ if $RELEASE_MIRROR_ENABLED; then
     sudo nginx -c /etc/nginx/nginx.conf
 fi
 
-if $DEBUG; then
+if [[ $SECONDS_SLEEP > 0 ]]; then
     echo "starting sleep for ${SECONDS_SLEEP} seconds"
     sleep ${SECONDS_SLEEP}s
 fi
