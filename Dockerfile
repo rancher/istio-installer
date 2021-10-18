@@ -16,7 +16,7 @@ RUN chmod +x /usr/local/app/scripts/init_kubeconfig.sh /usr/local/app/scripts/ru
 RUN mkdir -p /usr/local/app/dashboards && /usr/local/app/scripts/get_grafana_dashboards.sh
 
 # Add nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY overlay/ .
 
 # Get Istio tar for nginx
 RUN mkdir -p /opt/istio-releases && /usr/local/app/scripts/fetch_istio_releases.sh /opt/istio-releases
