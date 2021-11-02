@@ -2,7 +2,7 @@
 ca=$(cat /var/run/secrets/kubernetes.io/serviceaccount/ca.crt | base64 -w 0)
 token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 namespace=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
-server=https://10.43.0.1
+server=https://${KUBERNETES_SERVICE_HOST}
 echo "
 apiVersion: v1
 kind: Config
