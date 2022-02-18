@@ -1,6 +1,7 @@
-FROM alpine:latest
-ENV ISTIO_VERSION 1.10.4
-RUN apk update && apk add curl bash coreutils jq ca-certificates openssl nginx sudo
+FROM registry.suse.com/suse/sle15:15.3
+ENV ISTIO_VERSION 1.11.4
+RUN zypper -n update && \
+    zypper -n install curl jq openssl nginx tar gzip sudo
 
 # Get Istio
 RUN curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
@@ -22,7 +23,8 @@ COPY overlay/ .
 RUN mkdir -p /opt/istio-releases && /usr/local/app/scripts/fetch_istio_releases.sh /opt/istio-releases
 RUN mkdir -p /var/cache/nginx
 
-RUN chown -R nginx:nginx /var/cache/nginx /etc/ssl /var/run /usr/share/nginx /usr/local/share/ca-certificates /usr/local/app/dashboards
+RUN chown -R nginx:nginx /var/cache/nginx /etc/ssl /var/run /usr/share/nginx /usr/lib/ca-certificates /var/lib/ca-certificates /usr/local/app/dashboards
+RUN chmod 755 /etc/ssl/private /etc/ssl/certs
 
 RUN echo "nginx ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nginx \
         && chmod 0440 /etc/sudoers.d/nginx
