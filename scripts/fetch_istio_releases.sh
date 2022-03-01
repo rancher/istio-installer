@@ -6,7 +6,7 @@ RELEASE_DIR=${1}
 echo ${RELEASE_DIR}
 
 # Istio versions that need to be supported in the image for airgap installation.
-istio_version_array=(1.7.1 1.7.3 1.8.3 1.8.5 1.8.6 1.9.3 1.9.5 1.9.6 1.9.8 1.10.4 1.11.4)
+istio_version_array=(1.7.1 1.7.3 1.8.3 1.8.5 1.8.6 1.9.3 1.9.5 1.9.6 1.9.8 1.10.4 1.11.4 1.11.7)
 
 if [ -z "${RELEASE_DIR}" ]; then
   echo "No directory given"
