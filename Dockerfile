@@ -1,5 +1,5 @@
 FROM registry.suse.com/suse/sle15:15.3
-ENV ISTIO_VERSION 1.18.2
+ENV ISTIO_VERSION 1.19.0
 RUN zypper -n update && \
     zypper -n install curl jq openssl nginx tar gzip sudo
 
@@ -27,7 +27,7 @@ RUN chown -R nginx:nginx /var/cache/nginx /etc/ssl /var/run /usr/share/nginx /us
 RUN chmod 755 /etc/ssl/private /etc/ssl/certs
 
 RUN echo "nginx ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/nginx \
-        && chmod 0440 /etc/sudoers.d/nginx
+    && chmod 0440 /etc/sudoers.d/nginx
 
 USER nginx
 ENTRYPOINT [ "/usr/local/app/scripts/run.sh" ]
