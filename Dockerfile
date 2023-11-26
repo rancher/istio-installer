@@ -4,9 +4,7 @@ RUN zypper -n update && \
     zypper -n install curl jq openssl nginx tar gzip sudo
 
 # Get Istio
-ARG TARGETOS
-ARG TARGETARCH
-RUN curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} TARGET_ARCH=${TARGETARCH} TARGET_OS=${TARGETOS} sh -
+RUN curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 RUN mv istio-${ISTIO_VERSION}/bin/istioctl /usr/bin && chmod +x /usr/bin/istioctl
 
 # Get kubectl
