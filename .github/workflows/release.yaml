@@ -42,7 +42,9 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v5
+        env: 
+          IMAGE_TAG: ${{ inputs.imageTag || 'rancher/istio-installer' }}
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ inputs.imageTag }}:${{ github.ref_name }}
+          tags: ${{ env.IMAGE_TAG }}:${{ github.ref_name }}
