@@ -1,5 +1,5 @@
 FROM registry.suse.com/suse/sle15:15.3
-ENV ISTIO_VERSION 1.21.1
+ENV ISTIO_VERSION 1.22.1
 RUN zypper -n update && \
     zypper -n install curl jq openssl nginx tar gzip sudo
 
