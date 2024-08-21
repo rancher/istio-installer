@@ -1,8 +1,24 @@
-FROM registry.suse.com/suse/sle15:15.3
-ENV ISTIO_VERSION 1.22.1
-RUN zypper -n update && \
-    zypper -n install curl jq openssl nginx tar gzip sudo
+FROM registry.suse.com/bci/bci-micro:15.6 as final
 
+FROM registry.suse.com/bci/bci-base:15.6 as builder
+
+# Install system packages using builder image that has zypper
+COPY --from=final / /chroot/
+
+# Install some packages with zypper in the chroot of the final micro image
+RUN zypper refresh && \
+    zypper --installroot /chroot -n in --no-recommends \
+    curl jq openssl nginx tar gzip sudo ca-certificates sed && \
+    zypper --installroot /chroot clean -a && \
+    rm -rf /chroot/var/cache/zypp/* /chroot/var/log/zypp/* /chroot/tmp/* /chroot/var/tmp/* /chroot/usr/share/doc/packages/*
+
+# Main stage using bci-micro as the base image
+FROM final
+
+# Copy binaries and configuration files from builder to micro
+COPY --from=builder /chroot/ /
+
+ENV ISTIO_VERSION 1.22.1
 # Get Istio
 RUN curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 RUN mv istio-${ISTIO_VERSION}/bin/istioctl /usr/bin && chmod +x /usr/bin/istioctl
