@@ -13,8 +13,11 @@ fi
 if [ -d "${RELEASE_DIR}" ] ; then
   cd ${RELEASE_DIR}
 
-
-  curl -sOL https://github.com/istio/istio/releases/download/$ISTIO_VERSION/istio-$ISTIO_VERSION-linux-amd64.tar.gz
+  if [$TARGETPLATFORM = "linux/amd64"]; then
+    curl -sOL https://github.com/istio/istio/releases/download/$ISTIO_VERSION/istio-$ISTIO_VERSION-linux-amd64.tar.gz
+  else
+    curl -sOL https://github.com/istio/istio/releases/download/$ISTIO_VERSION/istio-$ISTIO_VERSION-linux-arm64.tar.gz
+  fi
 
   for f in *.tar.gz; do
     if [ -f "$f" ]; then

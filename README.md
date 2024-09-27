@@ -14,12 +14,7 @@ The current implementation of the `istioctl upgrade` command makes a call to ext
 #### How to upgrade the istio version
 
 1. In the Dockerfile, change the environmnet variable `ENV ISTIO_VERSION` to the version of istio that you would like the installer to support.
-2. Add the same version of istio that you used for `ENV ISTIO_VERSION`to the `istio_version_array` in the fetch_istio_releases.sh script ordering from least to greatest. When doing this step, you also want to double check that the version that was previously used for `ENV ISTIO_VERSION` also exists in the `istio_version_array`. This step ensures upgrades work in airgapped environments.
-
-	In general, the `istio_version_array` must include all istio versions from the release branches of [rancher/charts ](https://github.com/rancher/charts "rancher/charts ") 
-	> Note: The `istio_version_array` does not include rancher-istio chart version, just the version of istio that is supported by the rancher-istio chart.
-
-3. Finally, you need to validate that the create_istio_system.sh and the uninstall_istio_system.sh script commands are still valid. This can be done by checking that the [istioctl commands](https://istio.io/latest/docs/reference/commands/istioctl/ "istioctl commands") have not changed. You should also check the [release notes](https://istio.io/latest/news/ "release notes") for any significant changes to how istioctl is used. If there were changes to the commands, update the create_istio_system.sh  and the uninstall_istio_system.sh scripts accordingly.
+2. Finally, you need to validate that the create_istio_system.sh and the uninstall_istio_system.sh script commands are still valid. This can be done by checking that the [istioctl commands](https://istio.io/latest/docs/reference/commands/istioctl/ "istioctl commands") have not changed. You should also check the [release notes](https://istio.io/latest/news/ "release notes") for any significant changes to how istioctl is used. If there were changes to the commands, update the create_istio_system.sh  and the uninstall_istio_system.sh scripts accordingly.
 
 ## Build
 The istio-installer image is built using drone when a new tag is created and pushed to repository. See drone.yaml for drone configurations.
