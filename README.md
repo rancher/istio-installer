@@ -1,8 +1,7 @@
 # Istio Installer
 
 > [!NOTE]  
-> The [rancher-istio chart](https://github.com/rancher/charts "rancher-istio chart") will be deprecated starting on Rancher 2.12.0.
-> For more information, see the [announcement](https://forums.rancher.com/t/deprecation-of-rancher-istio/45043) in the Rancher forums.
+> The [rancher-istio chart](https://github.com/rancher/charts "rancher-istio chart") will be deprecated starting on Rancher 2.12.0. For more information, see the [announcement](https://forums.rancher.com/t/deprecation-of-rancher-istio/45043) in the Rancher forums.
 
 This image is used by the [rancher-istio chart](https://github.com/rancher/charts "rancher-istio chart") to intall istio with various configurations.
 
