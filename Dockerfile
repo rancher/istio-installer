@@ -18,7 +18,7 @@ FROM final
 # Copy binaries and configuration files from builder to micro
 COPY --from=builder /chroot/ /
 
-ENV ISTIO_VERSION 1.25.0
+ENV ISTIO_VERSION 1.26.2
 # Get Istio
 RUN curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${ISTIO_VERSION} sh -
 RUN mv istio-${ISTIO_VERSION}/bin/istioctl /usr/bin && chmod +x /usr/bin/istioctl
